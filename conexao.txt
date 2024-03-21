@@ -1,0 +1,56 @@
+<?php
+/*ini_set('display_errors', 1);
+error_reporting(1);*/
+
+//conexão de banco
+$db = new mysqli("localhost", "root", "", "blog_php", "3306");
+
+//inserindo dados/ atualizando dados/deletando dados
+$pass = md5('123');
+$insert = "INSERT INTO users 
+(nome,
+email,
+passwor
+)
+ VALUES (
+'inserindo php',
+'saimonreis2014@gmail.com',
+'{$pass}'
+)";
+
+$resulta = $db->query($insert);
+
+if ($resulta){
+    echo "salvo com sucesso ID => {$db->insert_id}";
+}else {
+   echo "erro insert: {$db->error}";
+}
+
+
+if($db->connect_error){
+    echo "erros banco de dados: {$db->connect_error}";
+    exit();
+}
+//consultando banco
+$select= "SELECT * FROM users";
+
+
+$resut = $db->query($select);
+//consultando banco
+if ($resut){
+    while ($obj = $resut->fetch_object()) {
+        echo "ID:  {$obj->id}<br>";
+        echo "Nome:  {$obj->nome}<br>";
+        echo "Email:  {$obj->email}<br>";
+        echo "Registro em:  {$obj->created_at}<br>";
+        echo "<hr>";
+        
+    }
+}else{
+    echo "erro no select: {$db->error}";
+}
+
+
+
+$db->close();
+?>
